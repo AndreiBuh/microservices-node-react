@@ -1,0 +1,64 @@
+1. Fundamental ideas around microservices
+
+Monolithic architecture vs Microservice architecture
+
+-> you are familiar with a monolithic architecture(server)
+-> a monolith contains all the routing, middlewares, business logic, database access to implement all features
+of our app
+
+What is a microservice?
+-> a single microservice contains all the routing, middlewares, business logic, database access to implement
+one feature of our app
+
+
+Challenges with microservices ->  data management between services !!!!!!
+							  -> this is the big problem of microservices
+Data management ->  the way we store data inside a service and how we communicate that data between different microservices
+
+Microservices -> how we store data   -> each service has its own database ( if the service needs a db)
+	      -> how we access data  -> services will never reach into other services database !!
+
+
+
+!!!!!! Each service gets its own database (if it needs one) !!!!!   -> Database-per-Service pattern
+!!!!!! Services will never reach into another services database !!!!
+Why?  
+-> We want each service to run independently of other services -> most important
+-> Database schema/structure might change unexpectedly
+-> Some services might function more efficiently with different types of DB's(sql vs nosql)
+
+
+Having the same database for all services problems -> if the database fails, all the services will crash
+												   -> scaling the database is challenging	
+												 
+Sync communication between services  -> Sync
+									 -> Async
+									 
+Sync -> services communicate with each other using direct requests
+Async -> services communicate with each other using events
+	  -> 2 ways of using async communication : Event Bus (not so often) & our solution(event+duplicate db etc)
+	
+2. A mini-microservice app
+
+We will have 2 services for this app : Posts and Comments
+Posts service: create a post, list all posts
+Comments service: create a comment, list all comments
+
+a) == Project setup ==
+
+-> Generate a React app with create-react-app  ->  npx create-react-app client
+-> Create an Express based project for the Posts Service  -> npm init -y in Posts folder
+-> Create an Express based project for the Comments Service  -> npm init -y in Comments folder
+
+-> in Comments and Posts folders -> npm install axios express cors nodemon 
+
+Postman for testing endpoints
+
+React app 
+-> add bootstrap -> CDN
+-> yarn add axios
+
+Handling CORS request error -> when we try to make a request to a different domain( from localhost:3000 to localhost:4000)  								-> do some config to the server (posts, comments services)
+																												-> npm install cors
+
+Object.values() -> built-in JS function that returns an array of the elements inside of the object
